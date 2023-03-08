@@ -1,14 +1,13 @@
 \documentclass[tikz,dvipsnames]{standalone}
-\usepackage[utf8]{inputenc}
 \usepackage[]{xcolor}
 \PassOptionsToPackage{dvipsnames}{xcolor}
+\usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amssymb}
 
 \usetikzlibrary{arrows,positioning,shapes}
 \usetikzlibrary{decorations.pathreplacing,decorations.markings}
 \usetikzlibrary{calc}
-%https://tex.stackexchange.com/questions/3161/tikz-how-to-draw-an-arrow-in-the-middle-of-the-line
 \tikzset{
   % style to apply some styles to each segment of a path
   on each segment/.style={
@@ -49,11 +48,10 @@
 %default radius will be 1pt. 
 cross/.default={1pt}}
 
-%define color
-%\colorlet{MyColor}{Red!.7}
-
 \begin{document}
-\begin{tikzpicture}
-  
+\begin{tikzpicture}[thick,scale=.7]
+  \draw[mid arrow,color=RedOrange] (0,0) .. controls ++ (2,1) and ++(-2,-1) .. ++(2,2);
+  \draw[mid arrow,color=RedOrange] (3,0)-- ++ (2,2);
+  \node at (2.5,1) {$=$};
 \end{tikzpicture}
 \end{document}

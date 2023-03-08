@@ -8,7 +8,7 @@
 \usetikzlibrary{arrows,positioning,shapes}
 \usetikzlibrary{decorations.pathreplacing,decorations.markings}
 \usetikzlibrary{calc}
-%https://tex.stackexchange.com/questions/3161/tikz-how-to-draw-an-arrow-in-the-middle-of-the-line
+% https://tex.stackexchange.com/questions/3161/tikz-how-to-draw-an-arrow-in-the-middle-of-the-line
 \tikzset{
   % style to apply some styles to each segment of a path
   on each segment/.style={
@@ -49,11 +49,35 @@
 %default radius will be 1pt. 
 cross/.default={1pt}}
 
-%define color
-%\colorlet{MyColor}{Red!.7}
+%color
+\colorlet{TopOp}{RedOrange}
 
+\usetikzlibrary{knots}
 \begin{document}
-\begin{tikzpicture}
+\begin{tikzpicture}[thick,scale=1.5]
+  \pgfmathsetmacro{\wid}{.6}
+  \pgfmathsetmacro{\toph}{.2}
+  \pgfmathsetmacro{\ll}{1.7}
+  \begin{knot}[
+    %draft mode=crossings,
+    clip width=2.5,
+    flip crossing=2]
+    %\strand[color=TopOp,arrow at={.4}{},draw,save path=\ug] (-{\wid},0) arc (-180:180:{\wid} and \toph);
+    \strand[color=TopOp,draw,save path=\ug] (-{\wid},0) arc (-180:180:{\wid} and \toph);
+    %\strand[arrow at={.55}{},draw] (0,-.5*\ll) -- ++(0,\ll);
+    \strand[save path=\O] (0,-.5*\ll) -- ++(0,\ll);
+  \end{knot}
+  \draw[draw = none, arrow at={.4}{},color=TopOp] (-{\wid},0) arc (-180:180:{\wid} and \toph);
+  \draw[draw = none, arrow at={.7}{}] (0,-.5*\ll) -- ++(0,\ll);
+  \node[anchor=west] (Ua) at ({\wid},0) {$U_\alpha$};
+  \node[anchor=west] at (0,\ll*.4) {$\mathcal{O}_q$};
   
+  \begin{scope}[xshift=2.3cm]
+    \draw[arrow at={.7}{}] (0,-.5*\ll) -- ++(0,\ll);
+    \node[anchor=west] at (0,\ll*.4) {$\mathcal{O}_q$};
+    \node (p) at (-.4,0) {$e^{\mathrm{iq \alpha}}$};
+    \node[circle,inner sep=0,minimum size=4,fill=gray] at (0,0){};
+  \end{scope}
+  \node at ($(p)!.5!(Ua)$) {$=$};
 \end{tikzpicture}
 \end{document}

@@ -1,14 +1,15 @@
 \documentclass[tikz,dvipsnames]{standalone}
-\usepackage[utf8]{inputenc}
 \usepackage[]{xcolor}
 \PassOptionsToPackage{dvipsnames}{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage[]{xcolor}
 \usepackage{amsmath}
 \usepackage{amssymb}
 
 \usetikzlibrary{arrows,positioning,shapes}
+\usetikzlibrary{arrows.meta,positioning,shapes}
 \usetikzlibrary{decorations.pathreplacing,decorations.markings}
 \usetikzlibrary{calc}
-%https://tex.stackexchange.com/questions/3161/tikz-how-to-draw-an-arrow-in-the-middle-of-the-line
 \tikzset{
   % style to apply some styles to each segment of a path
   on each segment/.style={
@@ -49,11 +50,18 @@
 %default radius will be 1pt. 
 cross/.default={1pt}}
 
-%define color
-%\colorlet{MyColor}{Red!.7}
-
 \begin{document}
-\begin{tikzpicture}
-  
-\end{tikzpicture}
+  \begin{tikzpicture}[thick]
+    \pgfmathsetmacro{\rad}{.9}
+    \coordinate (O) at (0,0);
+    \node[cross=.1cm] at (O) {};
+    \node[anchor = west,xshift=.1cm] at (O) {$\mathcal{O}$};
+    \draw[color=RedOrange,mid arrow] (\rad,0) arc (0:360:\rad);
+    \node[anchor = west] at (\rad,0) {$U_g$};
+    \node at (-1.1,0) {};
+    \node at (\rad+.9,0) {$=$};
+    \coordinate (O2) at (\rad+1.5,0);
+    \node[cross=.1cm] at (O2) {};
+    \node[anchor = west,xshift=.1cm] at (O2) {$\mathcal{O}$};
+  \end{tikzpicture}
 \end{document}
