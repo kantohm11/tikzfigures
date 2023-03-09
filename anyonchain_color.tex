@@ -1,0 +1,27 @@
+\documentclass[tikz,dvipsnames]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage[]{xcolor}
+\PassOptionsToPackage{dvipsnames}{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+%my sty
+\usepackage{fusioncat}
+
+\begin{document}
+\begin{tikzpicture}[scale=3.5]
+    \pgfmathsetmacro{\sep}{.4}
+    \pgfmathsetmacro{\sepy}{.4}
+    \draw[postaction={on each segment={mid arrow}}] coordinate(u0)
+    --node[midway,anchor=south] {$\Gamma_{i-2}$} ++ (\sep,0) coordinate(u1)
+    --node[midway,anchor=south] {$\Gamma_{i-1}$} ++ (\sep,0) coordinate(u2)
+    --node[midway,anchor=south] {$\Gamma_{i}$} ++ (\sep,0) coordinate(u3)
+    --node[midway,anchor=south] {$\Gamma_{i+1}$} ++ (\sep,0) coordinate(u4)
+    --node[midway,anchor=south] {$\Gamma_{i+2}$} ++ (\sep,0) coordinate(u5);
+    \draw (u0) -- (u1); %somehow needed
+    \foreach \x in {1,2,3,4}{
+        \draw[mid arrow] (u\x) -- ++(0,-\sepy) coordinate(d\x);
+        \node[anchor=north] at (d\x) {$\rho$};
+    }
+\end{tikzpicture}
+\end{document}

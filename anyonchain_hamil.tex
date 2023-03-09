@@ -1,0 +1,41 @@
+\documentclass[tikz,dvipsnames]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage[]{xcolor}
+\PassOptionsToPackage{dvipsnames}{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+%my sty
+\usepackage{fusioncat}
+
+\begin{document}
+\begin{tikzpicture}[scale=3.5]
+    \pgfmathsetmacro{\sep}{.4}
+    \pgfmathsetmacro{\sepy}{.4}
+    \pgfmathsetmacro{\seplarge}{3.3}
+    \pgfmathsetmacro{\sepnode}{\seplarge/2+1.5*\sep}
+    \begin{scope}
+    \draw[postaction={on each segment={mid arrow}}] (0,0) coordinate(u0)
+    --node[midway,anchor=south] {$\Gamma_{i-1}$} ++ (\sep,0) coordinate(u1)
+    --node[midway,anchor=south] {$\Gamma_{i}$} ++ (\sep,0) coordinate(u2)
+    --node[midway,anchor=south] {$\Gamma_{i+1}$} ++ (\sep,0) coordinate(u3);
+    \foreach \x in {1,2}{
+        \draw[arrow at ={.7}{}] (u\x) -- ++(0,-\sepy/2) coordinate(m\x) -- ++(0,-\sepy/2) coordinate(d\x);
+        \node[anchor=north] at (d\x) {$\rho$};
+    }
+    \draw[mid arrow] (m1) -- node[midway,anchor=north] {$\mathcal{F}$} (m2);
+    \end{scope}
+
+    \begin{scope}[xshift=\seplarge cm]
+    \draw[postaction={on each segment={mid arrow}}] (0,0) coordinate(u0)
+    --node[midway,anchor=south] {$\Gamma_{i-1}$} ++ (\sep,0) coordinate(u1)
+    --node[midway,anchor=south] {$\Gamma_{i}'$} ++ (\sep,0) coordinate(u2)
+    --node[midway,anchor=south] {$\Gamma_{i+1}$} ++ (\sep,0) coordinate(u3);
+    \foreach \x in {1,2}{
+        \draw[arrow at ={.7}{}] (u\x) -- ++(0,-\sepy/2) coordinate(m\x) -- ++(0,-\sepy/2) coordinate(d\x);
+        \node[anchor=north] at (d\x) {$\rho$};
+    }
+    \end{scope}
+    \node[scale=1.3] at (\sepnode,-\sepy/2) {$\displaystyle= \sum_{\Gamma'_{i} \in \Gamma_i \otimes \mathcal{F}}\overline{(F^{\rho\mathcal{F}\Gamma_i}_{\Gamma_{i-1}})_{\rho\Gamma^{\prime}_i}}(F^{\Gamma_i\mathcal{F}\rho^*}_{\Gamma_{i+1}})_{\rho^*\Gamma'_i}$};
+\end{tikzpicture}
+\end{document}

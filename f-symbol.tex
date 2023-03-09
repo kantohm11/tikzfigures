@@ -1,0 +1,36 @@
+\documentclass[tikz,dvipsnames]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage[]{xcolor}
+\PassOptionsToPackage{dvipsnames}{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{fusioncat}
+
+\usetikzlibrary{knots}
+\begin{document}
+\begin{tikzpicture}[thick,scale=1.7]
+  \pgfmathsetmacro{\sep}{.3}
+  \begin{scope}
+    \draw[mid arrow] (0,0) --node[midway,anchor=east,black] {$a$}  ++(\sep,.5) coordinate(m1);
+    \draw[mid arrow] (2*\sep,0) --node[midway,anchor=west,black] {$b$}  (m1);
+    \draw[arrow at={.7}{}] (m1) --node[midway,anchor=east] {$x$} ++(\sep,.5) coordinate(m2);
+    \draw[mid arrow] (4*\sep,0) --node[midway,anchor=west] {$c$} (m2);
+    \draw[arrow at={.7}{}] (m2) --node[midway,anchor=east] {$d$} ++(0,.5);
+    \node[circle,fill,inner sep=0,minimum size=1.5mm] at (m1){};
+    \node[circle,fill,inner sep=0,minimum size=1.5mm] at (m2){};
+  \end{scope}
+
+  \begin{scope}[xshift=2.7cm]
+    \draw[mid arrow] (0,0) --node[midway,anchor=east,black] {$a$}  ++(2*\sep,1) coordinate(m2);
+    \draw[mid arrow] (2*\sep,0) --node[midway,anchor=east,black] {$b$} ++(\sep,.5) coordinate (m1);
+    \draw[mid arrow] (4*\sep,0) --node[midway,anchor=west,black] {$c$} (m1);
+    \draw[mid arrow] (m1) --node[midway,anchor=west,black] {$y$} (m2);
+    \draw[arrow at={.7}{}] (m2) --node[midway,anchor=east] {$d$} ++(0,.5);
+    \node[circle,fill,inner sep=0,minimum size=1.5mm] at (m1){};
+    \node[circle,fill,inner sep=0,minimum size=1.5mm] at (m2){};
+  \end{scope}
+
+  \node[] at (6.5*\sep,.75) {$=\sum_{y}(F^{abc}_d)_{xy}$};
+\end{tikzpicture}
+\end{document}

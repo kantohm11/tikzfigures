@@ -1,0 +1,86 @@
+\documentclass[tikz,dvipsnames]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage[]{xcolor}
+\PassOptionsToPackage{dvipsnames}{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{fusioncat}
+
+\usetikzlibrary{knots}
+\begin{document}
+\begin{tikzpicture}[thick,scale=1.7]
+  \pgfmathsetmacro{\sep}{.3}
+  \begin{scope}
+    \draw[mid arrow] (0,0) --  ++(\sep,.5) coordinate(m1);
+    \draw[mid arrow] (2*\sep,0) --  (m1);
+    \draw[arrow at={.7}{}] (m1) -- ++(\sep,.5) coordinate(m2);
+    \draw[mid arrow] (4*\sep,0) -- (m2);
+    \draw[arrow at={.7}{}] (m2) -- ++(\sep,.5) coordinate(m3);
+    \draw[mid arrow] (6*\sep,0) -- (m3);
+    \draw[arrow at={.7}{}] (m3) -- ++(0,.5);
+    \node[circle,fill,inner sep=0,minimum size=1.5mm] at (m1){};
+    \node[circle,fill,inner sep=0,minimum size=1.5mm] at (m2){};
+    \node[circle,fill,inner sep=0,minimum size=1.5mm] at (m3){};
+  \end{scope}
+
+  \begin{scope}[xshift=2.7cm]
+    \draw[mid arrow] (0,0) --  ++(2*\sep,1) coordinate(m2);
+    \draw[mid arrow] (2*\sep,0) -- ++(\sep,.5) coordinate (m1);
+    \draw[mid arrow] (4*\sep,0) -- (m1);
+    \draw[mid arrow] (m1) -- (m2);
+    \draw[arrow at={.7}{}] (m2) -- ++(\sep,.5) coordinate(m3);
+    \draw[mid arrow] (6*\sep,0) -- (m3);
+    \draw[arrow at={.7}{}] (m3) -- ++(0,.5);
+    \node[circle,fill,inner sep=0,minimum size=1.5mm] at (m1){};
+    \node[circle,fill,inner sep=0,minimum size=1.5mm] at (m2){};
+    \node[circle,fill,inner sep=0,minimum size=1.5mm] at (m3){};
+  \end{scope}
+
+  \begin{scope}[xshift=2*2.7cm]
+    \draw[mid arrow] (0,0) --  ++(3*\sep,1.5) coordinate(m3);
+    \draw[mid arrow] (2*\sep,0) -- ++(\sep,.5) coordinate (m1);
+    \draw[mid arrow] (4*\sep,0) -- (m1);
+    \draw[mid arrow] (m1) -- ++(\sep,.5) coordinate (m2);
+    \draw[arrow at={.7}{}] (m2) -- (m3);
+    \draw[mid arrow] (6*\sep,0) -- (m2);
+    \draw[arrow at={.7}{}] (m3) -- ++(0,.5);
+    \node[circle,fill,inner sep=0,minimum size=1.5mm] at (m1){};
+    \node[circle,fill,inner sep=0,minimum size=1.5mm] at (m2){};
+    \node[circle,fill,inner sep=0,minimum size=1.5mm] at (m3){};
+  \end{scope}
+
+  \begin{scope}[xshift=2.7cm/2,yshift=-2.7cm]
+    \draw[mid arrow] (0,0) --  ++(\sep,.5) coordinate(m1);
+    \draw[mid arrow] (2*\sep,0) --  (m1);
+    \draw[arrow at={.7}{}] (m1) -- ++(2*\sep,1) coordinate(m3);
+    \draw[mid arrow] (4*\sep,0) -- ++(\sep,.5) coordinate(m2);
+    \draw[arrow at={.7}{}] (m2) -- (m3);
+    \draw[mid arrow] (6*\sep,0) -- (m2);
+    \draw[arrow at={.7}{}] (m3) -- ++(0,.5);
+    \node[circle,fill,inner sep=0,minimum size=1.5mm] at (m1){};
+    \node[circle,fill,inner sep=0,minimum size=1.5mm] at (m2){};
+    \node[circle,fill,inner sep=0,minimum size=1.5mm] at (m3){};
+  \end{scope}
+
+  \begin{scope}[xshift=1.5*2.7cm,yshift=-2.7cm]
+    \draw[mid arrow] (0,0) --  ++(3*\sep,1.5) coordinate(m3);
+    \draw[mid arrow] (2*\sep,0) -- ++(2*\sep,1) coordinate (m2);
+    \draw[mid arrow] (4*\sep,0) -- ++(\sep,.5) coordinate (m1);
+    \draw[mid arrow] (m1) -- (m2);
+    \draw[arrow at={.7}{}] (m2) -- (m3);
+    \draw[mid arrow] (6*\sep,0) -- (m1);
+    \draw[arrow at={.7}{}] (m3) -- ++(0,.5);
+    \node[circle,fill,inner sep=0,minimum size=1.5mm] at (m1){};
+    \node[circle,fill,inner sep=0,minimum size=1.5mm] at (m2){};
+    \node[circle,fill,inner sep=0,minimum size=1.5mm] at (m3){};
+  \end{scope}
+  
+  \draw[double,-{Stealth}] (2,.75)  --node[midway,anchor=south,scale=2] {$F$}(2.5,.75);
+  \draw[double,-{Stealth}] (4.7,.75)  --node[midway,anchor=south,scale=2] {$F$}(5.2,.75);
+  \draw[double,-{Stealth}] (3.35,-2.05)  --node[midway,anchor=south,scale=2] {$F$}(3.85,-2.05);
+  \draw[double,-{Stealth}] (6.3,-1)  --node[midway,anchor=south east,scale=2] {$F$} ++ (-120:.5);
+  \draw[double,-{Stealth}] (.7,-1)  --node[midway,anchor=south west,scale=2] {$F$} ++ (-60:.5);
+
+\end{tikzpicture}
+\end{document}
