@@ -13,7 +13,7 @@
     \pgfmathsetmacro{\sep}{.4}
     \pgfmathsetmacro{\sepy}{.4}
     \begin{scope}
-        \draw[postaction={on each segment={mid arrow}}] coordinate(u0)
+        \draw[postaction={on each segment={mid arrow}}] (0,0) coordinate(u0)
         --node[midway,anchor=south] {$\Gamma_{i-2}$} ++ (\sep,0) coordinate(u1)
         --node[midway,anchor=south] {$\Gamma_{i-1}$} ++ (\sep,0) coordinate(u2)
         --node[midway,anchor=south] {$\Gamma_{i}$} ++ (\sep,0) coordinate(u3)
