@@ -1,0 +1,224 @@
+\documentclass[crop,tikz]{standalone}% 'crop' is the default for v1.0, before it was 'preview'
+\usepackage[]{xcolor}
+\definecolor{orangered}{RGB}{181, 23, 0}
+\definecolor{greenblue}{RGB}{0, 108, 101}
+\usetikzlibrary{arrows,positioning,shapes}
+\usetikzlibrary{decorations.pathreplacing,decorations.markings}
+\usetikzlibrary{calc}
+\tikzset{
+  % style to apply some styles to each segment of a path
+  on each segment/.style={
+    decorate,
+    decoration={
+      show path construction,
+      moveto code={},
+      lineto code={
+        \path [#1]
+        (\tikzinputsegmentfirst) -- (\tikzinputsegmentlast);
+      },
+      curveto code={
+        \path [#1] (\tikzinputsegmentfirst)
+        .. controls
+        (\tikzinputsegmentsupporta) and (\tikzinputsegmentsupportb)
+        ..
+        (\tikzinputsegmentlast);
+      },
+      closepath code={
+        \path [#1]
+        (\tikzinputsegmentfirst) -- (\tikzinputsegmentlast);
+      },
+    },
+  },
+  % style to add an arrow in the middle of a path
+  mid arrow/.style={postaction={decorate,decoration={
+        markings,
+        mark=at position .5 with {\arrow[#1]{stealth}}
+      }}},
+}
+
+% adopted and modified from https://tex.stackexchange.com/questions/107409/how-to-draw-a-3d-hexagonal-structure-with-tikz, the one by alain-matthes
+\newcommand\hexgridv[2][]{%
+\begin{scope}[%
+  #1,
+  every node/.style={anchor=west,regular polygon, regular polygon sides=6,draw=none,inner sep=0.5cm},transform shape
+]
+\node (A#2) {};
+\node (B#2) at ([xshift=-\pgflinewidth,yshift=-\pgflinewidth]A#2.corner 1) {};
+\node (C#2) at ([xshift=-\pgflinewidth]B#2.corner 5) {};
+\node (D#2) at ([xshift=-\pgflinewidth]A#2.corner 5) {};
+\node (E#2) at ([xshift=-\pgflinewidth]D#2.corner 5) {};
+%\foreach \hex in {A,...,E}
+%{
+%  \foreach \corn in {1,...,6}
+%    \draw[fill=white] (\hex#2.corner \corn) circle (2pt); 
+%}
+\end{scope}
+}
+
+\newcommand\pgfmathsinandcos[3]{% 
+  \pgfmathsetmacro#1{sin(#3)}% 
+  \pgfmathsetmacro#2{cos(#3)}% 
+}
+
+\begin{document}
+
+
+\newcommand{\sethexcoord}[2]{
+\pgfmathsetmacro{\hexcoordx}{(#1-#2)*sqrt(3)/2}
+\pgfmathsetmacro{\hexcoordy}{#2/2*3-mod(#1,2)/2}
+}
+
+\newcommand{\sethexpoints}[1]{
+%\yy=0
+\foreach \xx in {0,1, ..., 4}{
+\sethexcoord{\xx}{0}
+\coordinate (h\xx0#1) at (\hexcoordx,\hexcoordy);
+}
+%\yy=1
+\foreach \xx in {0,1, ..., 6}{
+\sethexcoord{\xx}{1}
+\coordinate (h\xx1#1) at (\hexcoordx,\hexcoordy);
+}
+%\yy=2
+\foreach \xx in {1,2, ..., 7}{
+\sethexcoord{\xx}{2}
+\coordinate (h\xx2#1) at (\hexcoordx,\hexcoordy);
+}
+}
+
+\pgfmathsetmacro\angFuite{65}
+\pgfmathsetmacro\coeffReduc{.5}
+\pgfmathsinandcos\sint\cost{\angFuite}
+%\pgfmathparse{#2/2*3-mod(#1,2)/2}\pgfmathresult)}
+
+
+%draw hex
+\newcommand{\sethexpath}[3]{
+  \pgfmathtruncatemacro{\xx}{#1}
+  \pgfmathtruncatemacro{\xxp}{\xx+1}
+  \pgfmathtruncatemacro{\xxpp}{\xx+2}
+  \pgfmathtruncatemacro{\xxppp}{\xx+3}
+  \pgfmathtruncatemacro{\yy}{#2}
+  \pgfmathtruncatemacro{\yyp}{\yy+1}
+  \pgfmathtruncatemacro{\zz}{#3}
+}
+\newcommand{\drawhex}[1]{
+ \draw[#1](h\xx\yy\zz)--(h\xxp\yy\zz)--(h\xxpp\yy\zz)--(h\xxppp\yyp\zz)--(h\xxpp\yyp\zz)--(h\xxp\yyp\zz)--cycle;
+}
+
+%draw rectangle streatching along z direction 
+\newcommand{\setrectanglepath}[6]{
+  \pgfmathtruncatemacro{\xx}{#1}
+  \pgfmathtruncatemacro{\yy}{#2}
+  \pgfmathtruncatemacro{\zz}{#3}
+  \pgfmathtruncatemacro{\xxp}{#4}
+  \pgfmathtruncatemacro{\yyp}{#5}
+  \pgfmathtruncatemacro{\zzp}{#6}
+}
+\newcommand{\drawrectangle}[1]{
+ \draw[#1](h\xx\yy\zz)--(h\xxp\yyp\zz)--(h\xxp\yyp\zzp)--(h\xx\yy\zzp)--cycle;
+}
+
+\begin{tikzpicture}[scale=1.5,
+current plane/.estyle={cm={1,0,\coeffReduc*\cost,\coeffReduc*\sint,(0,#1)}},
+]
+
+%set hex points
+
+\begin{scope}[current plane=0.5cm,]
+\sethexpoints{0}
+\end{scope}
+\begin{scope}[current plane=.5cm,]
+\sethexpoints{1}
+\end{scope}
+\begin{scope}[current plane=.5cm,]
+\sethexpoints{2}
+\end{scope}
+\begin{scope}[current plane=.5cm,]
+\sethexpoints{3}
+\end{scope}
+\begin{scope}[current plane=2cm,]
+\sethexpoints{4}
+\end{scope}
+
+
+\begin{scope}[
+    vertfill/.style={fill=gray,opacity=0.2,draw=none},
+    vertdrawf/.style={orangered,mid arrow,thick},
+    vertdrawg/.style={greenblue,mid arrow,thick},
+    fillhex/.style={fill=#1, fill opacity=0.3,draw=#1!70!white},
+    ]
+\foreach \xx in {1,2,...,6}{
+  \pgfmathtruncatemacro{\xxp}{\xx+1}
+  \draw[vertfill] (h\xx24)--(h\xx20)-- (h\xxp20)-- (h\xxp24) -- cycle;
+}
+\foreach \xx in {1,3,...,7}{
+  \draw[vertdrawf] (h\xx24)--(h\xx20);
+}
+\foreach \xx in {2,4,...,6}{
+  \draw[vertdrawg] (h\xx20)--(h\xx24);
+}
+\setrectanglepath{0}{1}{4}{1}{2}{0}
+\drawrectangle{vertfill}
+\sethexpath{0}{1}{4}
+\drawhex{fillhex=blue}
+\setrectanglepath{2}{1}{4}{3}{2}{0}
+\drawrectangle{vertfill}
+\sethexpath{2}{1}{4}
+\drawhex{fillhex=blue}
+\setrectanglepath{4}{1}{4}{5}{2}{0}
+\drawrectangle{vertfill}
+\sethexpath{4}{1}{4}
+\drawhex{fillhex=blue}
+\setrectanglepath{6}{1}{4}{7}{2}{0}
+\drawrectangle{vertfill}
+
+\foreach \xx in {0,1,...,5}{
+  \pgfmathtruncatemacro{\xxp}{\xx+1}
+  \draw[vertfill] (h\xx14)--(h\xx10)-- (h\xxp10)-- (h\xxp14) -- cycle;
+}
+\foreach \xx in {1,3,...,5}{
+  \draw[vertdrawf] (h\xx14)--(h\xx10);
+}
+\foreach \xx in {0,2,...,6}{
+  \draw[vertdrawg] (h\xx10)--(h\xx14);
+}
+\setrectanglepath{0}{0}{4}{1}{1}{0}
+\drawrectangle{vertfill}
+\sethexpath{0}{0}{4}
+\drawhex{fillhex=blue}
+\setrectanglepath{2}{0}{4}{3}{1}{0}
+\drawrectangle{vertfill}
+\sethexpath{2}{0}{4}
+\drawhex{fillhex=blue}
+\setrectanglepath{4}{0}{4}{5}{1}{0}
+\drawrectangle{vertfill}
+
+
+\foreach \xx in {0,1,...,3}{
+  \pgfmathtruncatemacro{\xxp}{\xx+1}
+  \draw[vertfill] (h\xx04)--(h\xx00)-- (h\xxp00)-- (h\xxp04) -- cycle;
+}
+\foreach \xx in {1,3}{
+  \draw[vertdrawf] (h\xx04)--(h\xx00);
+}
+\foreach \xx in {0,2,4}{
+  \draw[vertdrawg] (h\xx00)--(h\xx04);
+}
+\end{scope}
+  
+
+%add margins to display the arrows at the edges
+\node at ([xshift=-.1] h010) {};
+\node at ([xshift=.1] h720) {};
+
+
+%1-form sym op
+\begin{scope}[current plane=2.5cm,]
+  \draw[draw = orange, ultra thick,mid arrow] (-0,-2) .. controls ++(2,0) and ++(-2,0)..++(4.5,4);
+\node[scale=2] at (-.2,-2) {$s$};
+\end{scope}
+
+  
+\end{tikzpicture}
+\end{document}

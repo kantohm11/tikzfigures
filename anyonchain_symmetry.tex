@@ -12,19 +12,57 @@
 \begin{tikzpicture}[scale=3.5,thick]
     \pgfmathsetmacro{\sep}{.4}
     \pgfmathsetmacro{\sepy}{.4}
-    \draw[postaction={on each segment={mid arrow}}] coordinate(u0)
-    --node[midway,anchor=south] {$\Gamma_{i-2}$} ++ (\sep,0) coordinate(u1)
-    --node[midway,anchor=south] {$\Gamma_{i-1}$} ++ (\sep,0) coordinate(u2)
-    --node[midway,anchor=south] {$\Gamma_{i}$} ++ (\sep,0) coordinate(u3)
-    --node[midway,anchor=south] {$\Gamma_{i+1}$} ++ (\sep,0) coordinate(u4)
-    --node[midway,anchor=south] {$\Gamma_{i+2}$} ++ (\sep,0) coordinate(u5);
-    \draw (u0) -- (u1); %somehow needed
-    \foreach \x in {1,2,3,4}{
-        \draw[mid arrow] (u\x) -- ++(0,-\sepy) coordinate(d\x);
-        \node[anchor=north] at (d\x) {$\rho$};
-    }
+    \begin{scope}
+        \draw[postaction={on each segment={mid arrow}}] coordinate(u0)
+        --node[midway,anchor=south] {$\Gamma_{i-2}$} ++ (\sep,0) coordinate(u1)
+        --node[midway,anchor=south] {$\Gamma_{i-1}$} ++ (\sep,0) coordinate(u2)
+        --node[midway,anchor=south] {$\Gamma_{i}$} ++ (\sep,0) coordinate(u3)
+        --node[midway,anchor=south] {$\Gamma_{i+1}$} ++ (\sep,0) coordinate(u4)
+        --node[midway,anchor=south] {$\Gamma_{i+2}$} ++ (\sep,0) coordinate(u5);
+        \draw (u0) -- (u1); %somehow needed
+        \foreach \x in {1,2,3,4}{
+            \draw[mid arrow] (u\x) -- ++(0,-\sepy) coordinate(d\x);
+            \node[anchor=north] at (d\x) {$\rho$};
+        }
 
-    \draw[color=TopOp,mid arrow] (0,\sepy/2) --node[midway,anchor=south] {$a$} ++(5*\sep,0);
-
+        \draw[color=TopOp,mid arrow] (0,\sepy/2) --node[midway,anchor=south] {$a$} ++(5*\sep,0);
+    \end{scope}
+    \begin{scope}[xshift=6*\sep cm]
+        \draw[postaction={on each segment={mid arrow}}] (0,0) coordinate(u0)
+        --node[midway,anchor=south] {$\Gamma_{i-2}$} ++ (\sep,0) coordinate(u1)
+        --node[midway,anchor=south] {$\Gamma_{i-1}$} ++ (\sep,0) coordinate(u2)
+        --node[midway,anchor=south] {$a\otimes \Gamma_{i}$} ++ (\sep,0) coordinate(u3)
+        --node[midway,anchor=south] {$\Gamma_{i+1}$} ++ (\sep,0) coordinate(u4)
+        --node[midway,anchor=south] {$\Gamma_{i+2}$} ++ (\sep,0) coordinate(u5);
+        \draw (u0) -- (u1); %somehow needed
+        \foreach \x in {1,2,3,4}{
+            \draw[mid arrow] (u\x) -- ++(0,-\sepy) coordinate(d\x);
+            \node[anchor=north] at (d\x) {$\rho$};
+        }
+        \draw[color=TopOp,mid arrow] (0,\sepy/2) .. controls ++(\sep,0) and ++(0,\sepy/2) .. (2.15*\sep,0) coordinate(al);
+        \draw[color=TopOp,mid arrow] (2.85*\sep,0) coordinate(ar) .. controls ++(0,\sepy/2) and ++(-\sep,0) .. (5*\sep,\sepy/2);
+        \node[circle,fill=TopOp,inner sep=0pt,minimum size=1mm] at (al){};
+        \node[circle,fill=TopOp,inner sep=0pt,minimum size=1mm] at (ar){};
+    \end{scope}
+    \begin{scope}[xshift=6*\sep cm,yshift=-1cm]
+        \draw[postaction={on each segment={mid arrow}}] (0,0) coordinate(u0)
+        --node[midway,anchor=south] {$\Gamma_{i-2}$} ++ (\sep,0) coordinate(u1)
+        --node[midway,anchor=south] {$\Gamma_{i-1}$} ++ (\sep,0) coordinate(u2)
+        --node[midway,anchor=south] {$a\otimes \Gamma_{i}$} ++ (\sep,0) coordinate(u3)
+        --node[midway,anchor=south] {$a\otimes\Gamma_{i+1}$} ++ (\sep,0) coordinate(u4)
+        --node[midway,anchor=south] {$\Gamma_{i+2}$} ++ (\sep,0) coordinate(u5);
+        \draw (u0) -- (u1); %somehow needed
+        \foreach \x in {1,2,3,4}{
+            \draw[mid arrow] (u\x) -- ++(0,-\sepy) coordinate(d\x);
+            \node[anchor=north] at (d\x) {$\rho$};
+        }
+        \draw[color=TopOp,mid arrow] (0,\sepy/2) .. controls ++(\sep,0) and ++(0,\sepy/2) .. (2.15*\sep,0) coordinate(al);
+        \draw[color=TopOp,mid arrow] (3.85*\sep,0) coordinate(ar) .. controls ++(0,\sepy/2) and ++(-.5*\sep,0) .. (5*\sep,\sepy/2);
+        \node[circle,fill=TopOp,inner sep=0pt,minimum size=1mm] at (al){};
+        \node[circle,fill=TopOp,inner sep=0pt,minimum size=1mm] at (ar){};
+        \node[circle,fill=black,inner sep=0pt,minimum size=1mm] at (3*\sep,0){};
+    \end{scope}
+    \draw[double,-{Stealth[]},double distance=.5mm] (5.5*\sep-.15,-\sepy/2) --node[midway,anchor=south] {$F$} (5.5*\sep+.15,-\sepy/2);
+    \draw[double,-{Stealth[]},double distance=.5mm] (5.5*\sep-.15,-\sepy/2-1) --node[midway,anchor=south] {$F$} (5.5*\sep+.15,-\sepy/2-1);
 \end{tikzpicture}
 \end{document}
